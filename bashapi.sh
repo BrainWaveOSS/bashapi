@@ -362,7 +362,7 @@ run_api_script() {
   local _executable_name=$(echo ${_executable_path} | awk -F '/' '{print $NF}' )
   local _tmp_dir=$(mktemp -u /tmp/bashapi.XXXXXX)
   mkdir -p ${_tmp_dir}
-  local _request_params=( $(echo ${REQUEST_URI} | awk -F '?' '{print $2}')
+  local _request_params=( $(echo ${REQUEST_URI} | awk -F '?' '{print $2}') )
   info "Request URI - ${REQUEST_URI}"
   info "Request Method - ${REQUEST_METHOD}"
   info "Request Body - ${REQUEST_BODY}"
