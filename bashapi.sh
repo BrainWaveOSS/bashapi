@@ -362,7 +362,7 @@ run_api_script() {
   local _executable_name=$(echo ${_executable_path} | awk -F '/' '{print $NF}' )
   local _tmp_dir=$(mktemp -u /tmp/bashapi.XXXXXX)
   mkdir -p ${_tmp_dir}
-  local _request_params=( $(echo ${REQUEST_URI} | awk -F '?' '{print $2}' | sed 's/\&/ /g') )
+  local _request_params=( $(echo ${REQUEST_URI} | awk -F '?' '{print $2}')
   info "Request URI - ${REQUEST_URI}"
   info "Request Method - ${REQUEST_METHOD}"
   info "Request Body - ${REQUEST_BODY}"
@@ -370,13 +370,8 @@ run_api_script() {
   info "Executable Name - ${_executable_name}"
 
   [[ ! -z ${REQUEST_BODY} ]] && echo "${REQUEST_BODY}" > ${_tmp_dir}/_request_body
+  [[ ! -z ${_request_params[@]} ]] && echo "${_request_params[@]}" > ${_tmp_dir}/_request_params
 
-  for _param in ${_request_params[@]}
-  do
-    info "Parameter - ${_param}"
-    echo ${_param} >> ${_tmp_dir}/_request_params
-  done
-  
   for i in $(compgen -v | grep REQUEST_HEADER_)
   do
     _HEADER=$(echo ${i} | sed 's/REQUEST_HEADER_//g')
