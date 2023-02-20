@@ -374,7 +374,7 @@ run_api_script() {
   for _param in ${_request_params[@]}
   do
     info "Parameter - ${_param}"
-    echo _param >> ${_tmp_dir}/_request_params
+    echo ${_param} >> ${_tmp_dir}/_request_params
   done
   
   for i in $(compgen -v | grep REQUEST_HEADER_)
