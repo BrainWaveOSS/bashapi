@@ -17,7 +17,7 @@
 
 # This variable is useful if we ever want to use the name of the app anywhere in the code
 readonly APP=bashapi
-readonly VERSION=1.0.0
+readonly VERSION=0.1.0
 # Get the full directory name of the script no matter where it is being called from
 readonly WDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # Set a config location depending where we are running from

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 _HTTP_METHOD=$1
 _TMP_DIR=$2
@@ -9,11 +9,12 @@ _TMP_DIR=$2
 # _env_global and _env_scriptname contains passed env vars that are scoped global and local to the called script
 # Those can be used to execute the script with params
 # Check if the file exists (in case of empty body or requests) before sourcing them
-# [[ -f $2/_request_params ]] && source $2/_request_params
-# [[ -f $2/_request_headers ]] && source $2/_request_headers
-# [[ -f $2/_request_body ]] && source $2/_request_body
-# [[ -f $2/_env_global  ]] && source $2/_env_global
-# [[ -f $2/_env_example ]] && source $2/_env_example
+echo ${_HTTP_METHOD}
+[[ -f ${_TMP_DIR}/_request_params ]] && cat ${_TMP_DIR}/_request_params
+[[ -f ${_TMP_DIR}/_request_headers ]] && cat ${_TMP_DIR}/_request_headers
+[[ -f ${_TMP_DIR}/_request_body ]] && cat ${_TMP_DIR}/_request_body
+[[ -f ${_TMP_DIR}/_env_global  ]] && cat ${_TMP_DIR}/_env_global
+[[ -f ${_TMP_DIR}/_env_example ]] && cat ${_TMP_DIR}/_env_example
 
 # Need to clean up the tmpdir
 rm -rf ${_TMP_DIR}
