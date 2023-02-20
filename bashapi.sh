@@ -291,7 +291,6 @@ request_body() {
     # Read the remaining request body
     # TODO: -t1 is the timeout -> Make this variable
     read -n${REQUEST_HEADER_CONTENT_LENGTH} -t5 REQUEST_BODY
-    # So, how to add this to a var?
   fi  
 }
 
@@ -369,6 +368,8 @@ run_api_script() {
   info "Request Body - ${REQUEST_BODY}"
   info "Executable Path - ${_executable_path}"
   info "Executable Name - ${_executable_name}"
+
+  [[ ! -z ${REQUEST_BODY} ]] && echo "${REQUEST_BODY}" > ${_tmp_dir}/_request_body
 
   for _param in ${_request_params[@]}
   do
