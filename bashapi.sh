@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 #
+# TODO: Make the response, recieve and send stuff in an extra lib so it can be included from other scripts.
+# This is important to properly send responses and handle background jobs
+#
 # A RESTful API server written in bash and running on Kubernetes
 #
 # See LICENSE for licensing information.
@@ -211,7 +214,14 @@ fail_with() {
 }
 
 serve_file() {
-  local filename="$1"
+  local _regex="^filename=.*"
+  local _request_params=( $(echo ${REQUEST_URI} | awk -F '?' '{print $2}' | sed 's/&/ /g') )
+  [[ ! " ${_request_params[*]} " =~ ${_regex} ]] && send_response 400 <(echo "filename missing in request parameters"); return
+  for i in ${_request_params[@]}
+  do
+    [[ ${i} =~ ${_regex} ]] && local filename=$(echo ${i} | awk -F '=' '{print $2}') && break
+  done
+  [[ ! -f ${filename} ]] && send_response 400 <(echo "File ${filename} not found"); return
 
   # Get the content type of the file so we can return it to the client
   read -r CONTENT_TYPE < <(file -b --mime-type "$filename")
@@ -226,6 +236,15 @@ serve_file() {
   append_header "Content-Length" "$CONTENT_LENGTH"
 
   send_response 200 < "$filename"
+}
+
+log_file() {
+  # curl /log_file_content?filename=/etc/whatever&level=info
+  local _request_params=( $(echo ${REQUEST_URI} | awk -F '?' '{print $2}') )
+  local _logfile=
+  log
+  append_header "Content-Type" "text/plain"
+  send_response 200 < <(echo "Logs Recieved")
 }
 
 serve_dir_with_ls()

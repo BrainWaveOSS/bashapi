@@ -1,7 +1,7 @@
 FROM bash:4.4
 MAINTAINER Joachim Jabs <joachim.jabs@brainwave-software.de>
 
-RUN apk add --no-cache file netcat-openbsd socat jq
+RUN apk add --no-cache file netcat-openbsd socat jq curl
 
 WORKDIR /opt/bashapi
 
